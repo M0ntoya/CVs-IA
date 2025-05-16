@@ -1,0 +1,6 @@
+# cvchat/models.py
+from django.db import models
+
+class UploadedCV(models.Model):
+    file = models.FileField(upload_to='cv_uploads/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
