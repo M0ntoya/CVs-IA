@@ -9,7 +9,7 @@ def register_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)  # inicia sesión automáticamente
-            return redirect('home')  # redirige a página principal
+            return redirect('analizar_cv')  # redirige a página principal
     else:
         form = UserCreationForm()
     return render(request, 'users/register.html', {'form': form})
@@ -21,7 +21,7 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('home')
+            return redirect('analizar_cv')
     else:
         form = AuthenticationForm()
     return render(request, 'users/login.html', {'form': form})
