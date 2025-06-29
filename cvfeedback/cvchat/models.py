@@ -1,6 +1,13 @@
-# cvchat/models.py
+
 from django.db import models
 from django.contrib.auth.models import User  # Importa el modelo de usuario
+
+class AuditLog(models.Model):
+    event_type = models.CharField(max_length=255)
+    user_ip = models.GenericIPAddressField(null=True, blank=True)
+    description = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
 
 class UploadedCV(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)  # Relación con el usuario

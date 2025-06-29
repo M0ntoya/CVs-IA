@@ -1,4 +1,4 @@
-# cvchat/forms.py
+
 from django import forms
 
 class UploadCVForm(forms.Form):
