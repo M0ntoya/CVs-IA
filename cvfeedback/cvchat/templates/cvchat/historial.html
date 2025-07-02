@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Historial de CVs{% endblock %}
+{% block content %}
+<h2>Historial de tus CVs</h2>
+
+<ul>
+  {% for cv in cvs %}
+    <li>
+      <strong>{{ cv.fecha_subida|date:"d/m/Y H:i" }}</strong><br>
+      Versión: {{ cv.version }}<br>
+      Estado: {{ cv.estado }}<br>
+      <details>
+        <summary>Recomendaciones</summary>
+        <p>{{ cv.recomendaciones }}</p>
+      </details>
+      <a href="{{ cv.archivo_pdf.url }}">Descargar CV</a>
+    </li>
+  {% empty %}
+    <li>No has subido ningún CV aún.</li>
+  {% endfor %}
+</ul>
+
+<a href="{% url 'analizar_cv' %}">Subir nuevo CV</a>
+{% endblock %}
