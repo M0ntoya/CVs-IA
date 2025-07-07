@@ -1,11 +1,118 @@
 {% extends 'base.html' %}
 {% block title %}Iniciar sesión{% endblock %}
+
 {% block content %}
-<h2>Iniciar sesión</h2>
-<form method="POST">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Entrar</button>
-</form>
-<a href="{% url 'register' %}">¿No tienes cuenta? Regístrate</a>
+<style>
+  .form-box {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 50px 40px;
+    max-width: 400px;
+    width: 100%;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    color: #fff;
+    text-align: center;
+  }
+
+  .form-box .avatar {
+    width: 90px;
+    height: 90px;
+    background: #1e2f3e;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .form-box .avatar i {
+    font-size: 40px;
+    color: white;
+  }
+
+  .form-box h2 {
+    margin-bottom: 25px;
+    font-weight: 600;
+    color: #ffffff;
+  }
+
+  .input-container {
+    position: relative;
+    margin-bottom: 35px;
+    text-align: left;
+  }
+
+  .input-container i {
+    position: absolute;
+    left: 10px;
+    top: 12px;
+    color: #aaa;
+  }
+
+  .input-container input {
+    width: 100%;
+    padding: 12px 12px 12px 35px;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    background: transparent;
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+
+  .input-container input:focus {
+    border-bottom-color: #a176ff;
+  }
+
+  .form-box button {
+    background: linear-gradient(90deg, #7c3aed, #6f42c1);
+    color: white;
+    padding: 14px;
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .form-box button:hover {
+    background: linear-gradient(90deg, #6f42c1, #5936a7);
+  }
+
+  .form-box a {
+    margin-top: 15px;
+    display: block;
+    font-size: 0.9rem;
+    color: #ccc;
+    text-decoration: none;
+  }
+
+  .form-box a:hover {
+    color: #fff;
+  }
+</style>
+
+<div class="form-box">
+  <div class="avatar">
+    <i class="fas fa-user"></i>
+  </div>
+  <h2>Iniciar sesión</h2>
+  <form method="POST">
+    {% csrf_token %}
+    <div class="input-container">
+      <i class="fas fa-user"></i>
+      {{ form.username }}
+    </div>
+    <div class="input-container">
+      <i class="fas fa-lock"></i>
+      {{ form.password }}
+    </div>
+    <button type="submit">Entrar</button>
+  </form>
+  <a href="{% url 'register' %}">¿No tienes cuenta? Regístrate</a>
+</div>
 {% endblock %}

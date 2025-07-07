@@ -1,12 +1,123 @@
 {% extends 'base.html' %}
 {% block title %}Subir CV{% endblock %}
-{% block content %}
-<h2>Sube tu CV para análisis</h2>
-<form method="POST" enctype="multipart/form-data">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Analizar CV</button>
-</form>
 
-<p><a href="{% url 'historial_cv' %}">Ver historial de versiones</a></p>
+{% block content %}
+<style>
+  .form-box {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 50px 40px;
+    max-width: 500px;
+    width: 100%;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    color: #fff;
+    text-align: center;
+  }
+
+  .form-box .avatar {
+    width: 90px;
+    height: 90px;
+    background: #1e2f3e;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .form-box .avatar i {
+    font-size: 40px;
+    color: white;
+  }
+
+  .form-box h2 {
+    margin-bottom: 25px;
+    font-weight: 600;
+    color: #ffffff;
+    font-size: 1.8rem;
+  }
+
+  .form-box form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .file-input-container {
+    position: relative;
+    text-align: left;
+  }
+
+  .file-input-container input[type="file"] {
+    width: 100%;
+    padding: 12px 16px;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    background: transparent;
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+
+  .file-input-container input[type="file"]::file-selector-button {
+    background: #6f42c1;
+    border: none;
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 8px;
+    margin-right: 12px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .file-input-container input[type="file"]:focus {
+    border-bottom-color: #a176ff;
+  }
+
+  .form-box button {
+    background: linear-gradient(90deg, #7c3aed, #6f42c1);
+    color: white;
+    padding: 14px;
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .form-box button:hover {
+    background: linear-gradient(90deg, #6f42c1, #5936a7);
+  }
+
+  .form-box a {
+    margin-top: 20px;
+    display: block;
+    font-size: 0.9rem;
+    color: #ccc;
+    text-decoration: none;
+  }
+
+  .form-box a:hover {
+    color: #fff;
+  }
+</style>
+
+<div class="form-box">
+  <div class="avatar">
+    <i class="fas fa-upload"></i>
+  </div>
+  <h2>Sube tu CV para análisis</h2>
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="file-input-container">
+      {{ form.as_p }}
+    </div>
+    <button type="submit">Analizar CV</button>
+  </form>
+  <a href="{% url 'historial_cv' %}">Ver historial de versiones</a>
+</div>
 {% endblock %}
