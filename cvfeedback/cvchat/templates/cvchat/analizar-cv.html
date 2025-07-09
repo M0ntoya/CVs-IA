@@ -1,20 +1,102 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8" />
-    <title>Analizar CV</title>
-</head>
-<body>
-    <h1>Sube tu CV (PDF) para recibir feedback</h1>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <input type="file" name="cv" accept="application/pdf" required />
-        <button type="submit">Enviar</button>
-    </form>
+{% extends 'base.html' %}
+{% block title %}Analizar CV{% endblock %}
 
-    {% if feedback %}
-    <h2>Feedback recibido:</h2>
-    <pre>{{ feedback }}</pre>
-    {% endif %}
-</body>
-</html>
+{% block content %}
+<style>
+  .form-box {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 50px 40px;
+    max-width: 500px;
+    width: 100%;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    color: #fff;
+    text-align: center;
+    margin: 50px auto;
+  }
+
+  .form-box .avatar {
+    width: 90px;
+    height: 90px;
+    background: #1e2f3e;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .form-box .avatar i {
+    font-size: 40px;
+    color: white;
+  }
+
+  .form-box h2 {
+    margin-bottom: 25px;
+    font-weight: 600;
+    color: #ffffff;
+  }
+
+  .input-container {
+    position: relative;
+    margin-bottom: 30px;
+    text-align: left;
+  }
+
+  .input-container input[type="file"] {
+    width: 100%;
+    padding: 12px;
+    background: transparent;
+    color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+  }
+
+  .form-box button {
+    background: linear-gradient(90deg, #7c3aed, #6f42c1);
+    color: white;
+    padding: 14px;
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .form-box button:hover {
+    background: linear-gradient(90deg, #6f42c1, #5936a7);
+  }
+
+  pre {
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 15px;
+    border-radius: 10px;
+    color: #ffffff;
+    white-space: pre-wrap;
+    text-align: left;
+  }
+</style>
+
+<div class="form-box">
+  <div class="avatar">
+    <i class="fas fa-file-pdf"></i>
+  </div>
+  <h2>Sube tu CV (PDF)</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="input-container">
+      <input type="file" name="cv" accept="application/pdf" required />
+    </div>
+    <button type="submit">Enviar</button>
+  </form>
+
+  {% if feedback %}
+  <h3 style="margin-top: 30px;">Feedback recibido:</h3>
+  <pre>{{ feedback }}</pre>
+  {% endif %}
+</div>
+{% endblock %}
