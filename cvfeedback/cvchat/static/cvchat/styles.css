@@ -234,3 +234,100 @@ button, .btn {
 button:hover, .btn:hover {
   background: linear-gradient(90deg, #6f42c1, #5936a7);
 }
+
+.form-container {
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.form-title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #4f46e5;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.auth-form-container {
+  max-width: 500px;
+  margin: 60px auto;
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.auth-form-container h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: var(--primary-color, #2e8bff);
+}
+
+.auth-form label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: bold;
+  color: #333;
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 10px 14px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+}
+
+.auth-form button {
+  width: 100%;
+  padding: 12px;
+  background-color: #2e8bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.auth-form button:hover {
+  background-color: #1c6ed9;
+}
+
+.auth-form-footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+}
+.auth-form-footer a {
+  color: #2e8bff;
+  font-weight: bold;
+  text-decoration: none;
+}
+.auth-form-footer a:hover {
+  text-decoration: underline;
+}
+

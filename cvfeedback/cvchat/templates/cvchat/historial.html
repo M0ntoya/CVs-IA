@@ -1,4 +1,6 @@
 {% extends 'cvchat/base.html' %}
+{% load tz %}
+{% localtime on %}
 {% block title %}Historial de CVs{% endblock %}
 
 {% block content %}
@@ -18,7 +20,7 @@
           </details>
 
 
-          <a href="{{ cv.archivo_pdf.url }}" class="btn">Descargar CV</a>
+
         </div>
       {% endfor %}
     </div>
@@ -30,3 +32,4 @@
   <a href="{% url 'analizar_cv' %}" class="btn">Subir nuevo CV</a>
 </div>
 {% endblock %}
+{% endlocaltime %}

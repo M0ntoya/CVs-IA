@@ -1,13 +1,114 @@
-{% extends 'cvchat/base.html' %}
-{% block title %}Iniciar sesión{% endblock %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Iniciar Sesión</title>
+<style>
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+  }
 
-{% block content %}
-<div class="form-box">
-  <h2>Iniciar sesión</h2>
-  <form method="post">
+  .form-container {
+    background: rgba(44, 83, 100, 0.85);
+    padding: 30px 30px 40px;
+    border-radius: 15px;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 700;
+    font-size: 1.8rem;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1rem;
+    box-sizing: border-box;
+  }
+
+  input[type="text"]:focus,
+  input[type="password"]:focus {
+    outline: none;
+    box-shadow: 0 0 6px #7e3ff2;
+    background-color: #f0f4f8;
+    color: #333;
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    background-color: #7e3ff2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #5a2ecc;
+  }
+
+  p {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+  }
+
+  a {
+    color: #c084fc;
+    text-decoration: underline;
+  }
+
+  a:hover {
+    color: #9f63f7;
+  }
+</style>
+</head>
+<body>
+
+<div class="form-container">
+  <h2>Iniciar Sesión</h2>
+  <form method="POST" action="/login/">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Entrar</button>
+    <label for="username-login">Correo</label>
+    <input id="username-login" type="text" name="username" required />
+
+    <label for="password-login">Contraseña</label>
+    <input id="password-login" type="password" name="password" required />
+
+    <button type="submit">Ingresar</button>
   </form>
+  <p>¿No tienes cuenta?
+    <a href="/register/">Regístrate</a>
+  </p>
 </div>
-{% endblock %}
+
+</body>
+</html>

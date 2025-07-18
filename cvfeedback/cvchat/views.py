@@ -14,7 +14,7 @@ from .utils import validar_archivo_pdf, sanitizar_texto, obtener_feedback_cv
 import fitz
 import markdown
 
-# --- VISTAS DE AUTENTICACIÓN ---
+
 
 def register_view(request):
     if request.method == 'POST':
@@ -42,7 +42,7 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
-# --- API REST para subir CV (no afecta HTML, pero se mantiene funcional) ---
+
 
 class CVAPIView(APIView):
     permission_classes = [IsAuthenticated]
@@ -88,7 +88,7 @@ class CVAPIView(APIView):
                 text += page.get_text()
         return text
 
-# --- Vista para analizar CV desde HTML ---
+# vista para analizar CV
 
 @login_required
 def analizar_cv(request):
@@ -101,22 +101,34 @@ def analizar_cv(request):
             texto_cv = sanitizar_texto(extraer_texto_pdf(archivo_pdf))
             feedback_markdown = obtener_feedback_cv(texto_cv)
 
-            # Convertir feedback Markdown a HTML con negritas, listas, etc.
-            feedback_html = markdown.markdown(feedback_markdown)
+            # version del CV
+            ultimo_cv = HistorialCV.objects.filter(usuario=request.user).order_by('-version').first()
+            if ultimo_cv and ultimo_cv.version:
+                try:
+                    nueva_version = float(ultimo_cv.version) + 0.1
+                except ValueError:
 
-            # Guardar en el historial del usuario
+                    nueva_version = 1.0
+            else:
+                nueva_version = 1.0
+
+            # guardar en el historial del usuario con la nueva versión
             HistorialCV.objects.create(
                 usuario=request.user,
                 archivo_pdf=archivo_pdf,
                 recomendaciones=feedback_markdown,
-                version="1.0",
+                version=f"{nueva_version:.1f}",
                 estado="Analizado"
             )
+
+            #  feedback Markdown a HTML con negritas, listas, etc.
+            feedback_html = markdown.markdown(feedback_markdown)
 
         except Exception as e:
             feedback_html = f'<p class="text-danger">Error al procesar el CV: {str(e)}</p>'
 
     return render(request, 'cvchat/analizar-cv.html', {'feedback': feedback_html})
+
 
 # --- Vista del historial de CVs ---
 
