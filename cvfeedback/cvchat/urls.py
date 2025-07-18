@@ -1,13 +1,12 @@
 from django.urls import path
+from cvchat.views import register_view, login_view, logout_view, analizar_cv, CVAPIView
 from . import views
 
 urlpatterns = [
-    # API REST para CVs, que usan los tests y clientes AJAX
-    path('analizar-cv/', views.CVAPIView.as_view(), name='analizar_cv'),
-
-    # Vista para mostrar la página HTML con el formulario para subir CV
-    path('analizar-cv/pagina/', views.analizar_cv, name='analizar_cv_page'),
-
-    # URLs para detalle y manejo individual de CVs vía API REST
-    path('api/cv/<int:pk>/', views.CVAPIView.as_view(), name='cv_api_detail'),
+    path('register/', register_view, name='register'),
+    path('login/', login_view, name='login'),
+    path('logout/', logout_view, name='logout'),
+    path('analizar-cv/', analizar_cv, name='analizar_cv'),
+    path('historial/', views.historial_cvs, name='historial_cvs'),
+    path('api/cv/', CVAPIView.as_view(), name='cv_api'),
 ]

@@ -4,12 +4,45 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.exceptions import ValidationError
-from django.shortcuts import render
-from .models import UploadedCV
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
+from .models import UploadedCV, HistorialCV
 from .serializers import UploadedCVSerializer
 from .utils import validar_archivo_pdf, sanitizar_texto, obtener_feedback_cv
 import fitz
-from django.contrib.auth.decorators import login_required
+import markdown
+
+# --- VISTAS DE AUTENTICACIÓN ---
+
+def register_view(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('analizar_cv')
+    else:
+        form = UserCreationForm()
+    return render(request, 'cvchat/register.html', {'form': form})
+
+def login_view(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('analizar_cv')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'cvchat/login.html', {'form': form})
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
+
+# --- API REST para subir CV (no afecta HTML, pero se mantiene funcional) ---
 
 class CVAPIView(APIView):
     permission_classes = [IsAuthenticated]
@@ -21,16 +54,13 @@ class CVAPIView(APIView):
         if not file:
             return Response({'error': 'No se proporcionó archivo.'}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Validar tipo MIME
         if file.content_type != 'application/pdf':
             return Response({'error': 'Solo se permiten archivos PDF.'}, status=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
 
-        # Validar tamaño máximo 5MB
         max_size = 5 * 1024 * 1024
         if file.size > max_size:
             return Response({'error': 'Archivo demasiado grande. Tamaño máximo 5MB.'}, status=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE)
 
-        # Validar contenido PDF
         try:
             validar_archivo_pdf(file)
         except ValidationError as e:
@@ -38,7 +68,6 @@ class CVAPIView(APIView):
         except Exception:
             return Response({'error': 'Archivo inválido o malicioso.'}, status=status.HTTP_403_FORBIDDEN)
 
-        # Usar serializer con contexto para asignar usuario
         serializer = UploadedCVSerializer(data=request.data, context={'request': request})
 
         if serializer.is_valid():
@@ -53,25 +82,50 @@ class CVAPIView(APIView):
 
     def extract_text(self, file):
         text = ""
-        file.seek(0)  # importante para leer desde el inicio
+        file.seek(0)
         with fitz.open(stream=file.read(), filetype="pdf") as doc:
             for page in doc:
                 text += page.get_text()
         return text
 
+# --- Vista para analizar CV desde HTML ---
 
 @login_required
 def analizar_cv(request):
-    feedback = None
+    feedback_html = None
+
     if request.method == 'POST' and request.FILES.get('cv'):
         archivo_pdf = request.FILES['cv']
         try:
             validar_archivo_pdf(archivo_pdf)
             texto_cv = sanitizar_texto(extraer_texto_pdf(archivo_pdf))
-            feedback = obtener_feedback_cv(texto_cv)
+            feedback_markdown = obtener_feedback_cv(texto_cv)
+
+            # Convertir feedback Markdown a HTML con negritas, listas, etc.
+            feedback_html = markdown.markdown(feedback_markdown)
+
+            # Guardar en el historial del usuario
+            HistorialCV.objects.create(
+                usuario=request.user,
+                archivo_pdf=archivo_pdf,
+                recomendaciones=feedback_markdown,
+                version="1.0",
+                estado="Analizado"
+            )
+
         except Exception as e:
-            feedback = f'Error: {str(e)}'
-    return render(request, 'cvchat/analizar-cv.html', {'feedback': feedback})
+            feedback_html = f'<p class="text-danger">Error al procesar el CV: {str(e)}</p>'
+
+    return render(request, 'cvchat/analizar-cv.html', {'feedback': feedback_html})
+
+# --- Vista del historial de CVs ---
+
+@login_required
+def historial_cvs(request):
+    cvs = HistorialCV.objects.filter(usuario=request.user).order_by('-fecha_subida')
+    return render(request, 'cvchat/historial.html', {'cvs': cvs})
+
+# --- Función para extraer texto de PDF ---
 
 def extraer_texto_pdf(archivo_pdf):
     texto = ""

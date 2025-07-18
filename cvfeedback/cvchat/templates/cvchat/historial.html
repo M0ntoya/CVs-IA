@@ -1,24 +1,32 @@
-{% extends 'base.html' %}
+{% extends 'cvchat/base.html' %}
 {% block title %}Historial de CVs{% endblock %}
+
 {% block content %}
-<h2>Historial de tus CVs</h2>
+<div class="container">
+  <h2>Historial de tus CVs</h2>
+  {% if cvs %}
+    <div class="list-group">
+      {% for cv in cvs %}
+        <div class="list-group-item">
+          <p><strong>Fecha de subida:</strong> {{ cv.fecha_subida|date:"d/m/Y H:i" }}</p>
+          <p><strong>Versión:</strong> {{ cv.version }}</p>
+          <p><strong>Estado:</strong> {{ cv.estado }}</p>
 
-<ul>
-  {% for cv in cvs %}
-    <li>
-      <strong>{{ cv.fecha_subida|date:"d/m/Y H:i" }}</strong><br>
-      Versión: {{ cv.version }}<br>
-      Estado: {{ cv.estado }}<br>
-      <details>
-        <summary>Recomendaciones</summary>
-        <p>{{ cv.recomendaciones }}</p>
-      </details>
-      <a href="{{ cv.archivo_pdf.url }}">Descargar CV</a>
-    </li>
-  {% empty %}
-    <li>No has subido ningún CV aún.</li>
-  {% endfor %}
-</ul>
+          <details>
+            <summary>Ver recomendaciones</summary>
+            <div>{{ cv.recomendaciones|safe }}</div>
+          </details>
 
-<a href="{% url 'analizar_cv' %}">Subir nuevo CV</a>
+          <!-- Botón para descargar CV -->
+          <a href="{{ cv.archivo_pdf.url }}" class="btn">Descargar CV</a>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>No has subido ningún CV aún.</p>
+  {% endif %}
+
+  <!-- Botón para subir nuevo CV -->
+  <a href="{% url 'analizar_cv' %}" class="btn">Subir nuevo CV</a>
+</div>
 {% endblock %}

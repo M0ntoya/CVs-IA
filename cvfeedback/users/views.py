@@ -12,7 +12,7 @@ def register_view(request):
             return redirect('analizar_cv')  # redirige a página principal
     else:
         form = UserCreationForm()
-    return render(request, 'users/register.html', {'form': form})
+    return render(request, 'cvchat/register.html', {'form': form})
 
 # Inicio de sesión
 def login_view(request):
@@ -24,7 +24,7 @@ def login_view(request):
             return redirect('analizar_cv')
     else:
         form = AuthenticationForm()
-    return render(request, 'users/login.html', {'form': form})
+    return render(request, 'cvchat/login.html', {'form': form})
 
 # Cierre de sesión
 def logout_view(request):

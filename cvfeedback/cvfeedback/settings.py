@@ -150,8 +150,8 @@ STATICFILES_DIRS = [
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Login settings
-LOGIN_URL = '/users/login/'
-LOGIN_REDIRECT_URL = '/analizar/'
+LOGIN_URL = '/cvchat/login/'
+LOGIN_REDIRECT_URL = '/analizar-cv/'
 
 # Clave por defecto para campos de modelos
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

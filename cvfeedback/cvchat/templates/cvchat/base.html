@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}CV Feedback{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Fuentes y iconos -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <!-- Tu CSS externo -->
+    <link rel="stylesheet" href="{% static 'cvchat/styles.css' %}" />
+</head>
+<body>
+
+    <header>
+        <h1>CV Feedback</h1>
+        <nav>
+            <ul>
+                {% url 'analizar_cv' as analizar_cv_url %}
+                {% url 'historial_cvs' as historial_cvs_url %}
+
+                {% if user.is_authenticated %}
+                    {% if request.path == analizar_cv_url %}
+                        <li><a href="{{ historial_cvs_url }}">Historial</a></li>
+                    {% elif request.path == historial_cvs_url %}
+                        <li><a href="{{ analizar_cv_url }}">Analizar CV</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'logout' %}">Cerrar sesión</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Iniciar sesión</a></li>
+                    <li><a href="{% url 'register' %}">Registrarse</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2025 CV Feedback</p>
+    </footer>
+
+</body>
+</html>
