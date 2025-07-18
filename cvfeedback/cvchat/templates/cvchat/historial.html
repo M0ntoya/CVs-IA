@@ -17,7 +17,7 @@
             <div>{{ cv.recomendaciones|safe }}</div>
           </details>
 
-          <!-- Botón para descargar CV -->
+
           <a href="{{ cv.archivo_pdf.url }}" class="btn">Descargar CV</a>
         </div>
       {% endfor %}
@@ -26,7 +26,7 @@
     <p>No has subido ningún CV aún.</p>
   {% endif %}
 
-  <!-- Botón para subir nuevo CV -->
+
   <a href="{% url 'analizar_cv' %}" class="btn">Subir nuevo CV</a>
 </div>
 {% endblock %}

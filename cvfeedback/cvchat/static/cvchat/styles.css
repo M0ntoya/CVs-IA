@@ -1,6 +1,4 @@
-/* styles.css */
 
-/* General body & layout */
 body {
     font-family: 'Poppins', sans-serif;
     background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
@@ -13,7 +11,7 @@ body {
     box-sizing: border-box;
 }
 
-/* Header */
+
 header {
     background-color: rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(6px);
@@ -49,7 +47,7 @@ nav a:hover {
     color: #e0c9ff;
 }
 
-/* Main container */
+
 main {
     flex: 1;
     display: flex;
@@ -58,7 +56,7 @@ main {
     padding: 20px;
 }
 
-/* Footer */
+
 footer {
     background-color: rgba(0, 0, 0, 0.15);
     backdrop-filter: blur(4px);
@@ -69,7 +67,7 @@ footer {
     box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
     header {
         flex-direction: column;
@@ -83,7 +81,7 @@ footer {
     }
 }
 
-/* Buttons with gradient */
+
 .btn-custom, button {
     display: inline-block;
     background: linear-gradient(90deg, #7c3aed, #6f42c1);
@@ -103,7 +101,7 @@ footer {
     background: linear-gradient(90deg, #6f42c1, #5936a7);
 }
 
-/* Form box common style */
+
 .form-box {
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 16px;
@@ -117,7 +115,7 @@ footer {
     margin: 50px auto;
 }
 
-/* Avatar style */
+
 .form-box .avatar {
     width: 90px;
     height: 90px;
@@ -140,12 +138,12 @@ footer {
     color: #ffffff;
 }
 
-/* Input file hidden */
+
 .input-container input[type="file"] {
     display: none;
 }
 
-/* Custom file input label */
+
 .input-container label {
     display: inline-block;
     background: linear-gradient(90deg, #7c3aed, #6f42c1);
@@ -162,7 +160,7 @@ footer {
     background: linear-gradient(90deg, #6f42c1, #5936a7);
 }
 
-/* File name display */
+
 .input-container .file-name {
     margin-top: 10px;
     font-style: italic;
@@ -171,7 +169,7 @@ footer {
     text-align: left;
 }
 
-/* Feedback preformatted block */
+
 pre, .feedback-box {
     background-color: rgba(0, 0, 0, 0.3);
     padding: 15px;
@@ -183,7 +181,7 @@ pre, .feedback-box {
     margin: 30px auto 0 auto;
 }
 
-/* Historial styles */
+
 .container {
     max-width: 700px;
     margin: 50px auto;
@@ -205,7 +203,7 @@ details summary {
     outline: none;
 }
 
-/* Link buttons inside historial */
+
 .list-group-item a.btn-sm {
     font-size: 0.85rem;
     padding: 8px 14px;
@@ -213,7 +211,7 @@ details summary {
     text-decoration: none;
 }
 
-/* Margin for the “Subir nuevo CV” button */
+
 .btn-primary.mt-4 {
     margin-top: 1.5rem;
 }
