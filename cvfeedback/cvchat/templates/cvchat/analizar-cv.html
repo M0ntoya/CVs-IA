@@ -2,6 +2,12 @@
 {% block title %}Analizar CV{% endblock %}
 
 {% block content %}
+
+<!-- Botón fijo para historial, esquina superior derecha -->
+<button id="toggleHistorial" class="btn-historial-fixed" title="Abrir historial de CVs">
+  <i class="fas fa-history"></i>
+</button>
+
 <div class="form-box">
   <div class="avatar">
     <i class="fas fa-file-pdf"></i>
@@ -25,8 +31,29 @@
   {% endif %}
 </div>
 
+<!-- Panel lateral historial -->
+<div id="sidePanel" class="side-panel">
+  <h2>Historial de tus CVs</h2>
+  {% if cvs %}
+    <div class="list-group">
+      {% for cv in cvs %}
+        <div class="list-group-item">
+          <p><strong>Archivo:</strong> {{ cv.archivo_pdf.name|slice:"8:" }}</p>
+          <p><strong>Versión:</strong> {{ cv.version }}</p>
+          <p><strong>Fecha:</strong> {{ cv.fecha_subida|date:"d/m/Y H:i" }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>No has subido ningún CV aún.</p>
+  {% endif %}
+</div>
+
+<!-- Overlay para cerrar panel -->
+<div id="overlay" class="overlay"></div>
+
 <script>
-  // mostrar nombre de archivo seleccionado
+  // Mostrar nombre del archivo PDF seleccionado
   const inputFile = document.getElementById('cvFile');
   const fileNameDiv = document.getElementById('fileName');
 
@@ -37,5 +64,24 @@
       fileNameDiv.textContent = 'Ningún archivo seleccionado';
     }
   });
+
+  // Toggle panel lateral historial
+  const btnHistorial = document.getElementById('toggleHistorial');
+  const sidePanel = document.getElementById('sidePanel');
+  const overlay = document.getElementById('overlay');
+
+  function abrirPanel() {
+    sidePanel.classList.add('open');
+    overlay.classList.add('active');
+  }
+
+  function cerrarPanel() {
+    sidePanel.classList.remove('open');
+    overlay.classList.remove('active');
+  }
+
+  btnHistorial.addEventListener('click', abrirPanel);
+  overlay.addEventListener('click', cerrarPanel);
 </script>
+
 {% endblock %}

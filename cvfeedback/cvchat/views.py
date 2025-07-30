@@ -89,7 +89,6 @@ class CVAPIView(APIView):
         return text
 
 # vista para analizar CV
-
 @login_required
 def analizar_cv(request):
     feedback_html = None
@@ -101,18 +100,17 @@ def analizar_cv(request):
             texto_cv = sanitizar_texto(extraer_texto_pdf(archivo_pdf))
             feedback_markdown = obtener_feedback_cv(texto_cv)
 
-            # version del CV
+            # Obtener último CV para versión
             ultimo_cv = HistorialCV.objects.filter(usuario=request.user).order_by('-version').first()
             if ultimo_cv and ultimo_cv.version:
                 try:
                     nueva_version = float(ultimo_cv.version) + 0.1
                 except ValueError:
-
                     nueva_version = 1.0
             else:
                 nueva_version = 1.0
 
-            # guardar en el historial del usuario con la nueva versión
+            # Guardar nuevo CV en historial
             HistorialCV.objects.create(
                 usuario=request.user,
                 archivo_pdf=archivo_pdf,
@@ -121,13 +119,16 @@ def analizar_cv(request):
                 estado="Analizado"
             )
 
-            #  feedback Markdown a HTML con negritas, listas, etc.
             feedback_html = markdown.markdown(feedback_markdown)
 
         except Exception as e:
             feedback_html = f'<p class="text-danger">Error al procesar el CV: {str(e)}</p>'
 
-    return render(request, 'cvchat/analizar-cv.html', {'feedback': feedback_html})
+    # Obtener todos los CVs del usuario para el historial lateral (actualizado)
+    cvs = HistorialCV.objects.filter(usuario=request.user).order_by('-fecha_subida')
+
+    return render(request, 'cvchat/analizar-cv.html', {'feedback': feedback_html, 'cvs': cvs})
+
 
 
 # --- Vista del historial de CVs ---

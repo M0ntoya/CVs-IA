@@ -12,6 +12,7 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: white;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 40px 20px;
@@ -91,10 +92,19 @@
   a:hover {
     color: #9f63f7;
   }
+
+  .titulo {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #ffffff;
+    margin-top: -20px;
+    margin-bottom: 40px;
+  }
 </style>
 </head>
 <body>
-
+<h1 class="titulo">CVisión</h1>
 <div class="form-container">
   <h2>Registro</h2>
   <form method="POST" action="/register/">

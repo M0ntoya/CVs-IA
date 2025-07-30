@@ -15,7 +15,8 @@ body {
 header {
     background-color: rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(6px);
-    padding: 20px 40px;
+    height: 50px;
+    padding: 0 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -23,7 +24,8 @@ header {
 }
 
 header h1 {
-    font-size: 1.8rem;
+    font-size: 1.4rem;
+    margin: 0;
     font-weight: 600;
     color: #ffffff;
 }
@@ -32,7 +34,7 @@ nav ul {
     list-style: none;
     display: flex;
     gap: 20px;
-    margin: 0;
+    margin-right: 70px;
     padding: 0;
 }
 
@@ -166,7 +168,7 @@ footer {
     font-style: italic;
     font-size: 0.9rem;
     color: #ccc;
-    text-align: left;
+    text-align: center;
 }
 
 
@@ -331,3 +333,110 @@ button:hover, .btn:hover {
   text-decoration: underline;
 }
 
+#fileName {
+  width: 100%;
+  display: block;
+  text-align: center;
+}
+
+/* Panel lateral historial */
+.side-panel {
+  position: fixed;
+  top: 0;
+  right: -360px; /* oculto fuera de pantalla */
+  width: 360px;
+  height: 100%;
+  background-color: rgba(30, 47, 62, 0.95); /* tonalidad similar a tu avatar */
+  box-shadow: -4px 0 15px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(12px);
+  transition: right 0.35s ease;
+  padding: 30px 25px;
+  overflow-y: auto;
+  z-index: 1100;
+  color: #e0c9ff; /* color lavanda claro para títulos y texto */
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  border-radius: 16px 0 0 16px;
+}
+
+.side-panel.open {
+  right: 0;
+}
+
+.side-panel h2 {
+  margin-top: 0;
+  font-weight: 600;
+  font-size: 1.4rem;
+  margin-bottom: 1.2rem;
+  color: #c8b6ff;
+  border-bottom: 1px solid rgba(200, 182, 255, 0.4);
+  padding-bottom: 8px;
+}
+
+.list-group-item {
+  background-color: rgba(255 255 255 / 0.07);
+  color: #e0c9ff;
+  margin-bottom: 1rem;
+  padding: 15px 20px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgb(0 0 0 / 0.3);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.list-group-item p {
+  margin: 6px 0;
+}
+
+/* Botón fijo para abrir el historial en esquina superior derecha */
+.btn-historial-fixed {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(124, 58, 237, 0.3); /* morado semi-transparente */
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(124, 58, 237, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+  z-index: 1150; /* por encima del panel lateral */
+}
+
+.btn-historial-fixed:hover {
+  background: rgba(124, 58, 237, 0.6);
+}
+
+/* Fondo oscuro al abrir panel */
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1050;
+  backdrop-filter: blur(1.5px);
+}
+
+.overlay.active {
+  display: block;
+}
+
+/* Scrollbar personalizado (opcional) */
+.side-panel::-webkit-scrollbar {
+  width: 8px;
+}
+
+.side-panel::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.side-panel::-webkit-scrollbar-thumb {
+  background: rgba(124, 58, 237, 0.6);
+  border-radius: 8px;
+}
